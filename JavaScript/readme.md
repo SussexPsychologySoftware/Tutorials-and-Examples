@@ -1,5 +1,5 @@
 # Intro to programming experiments for the web with JavaScript
-This document goes through the basics of programming a psychology experiment with just JavaScript, HTML, and CSS. This document aims to be accessible to everyone - no prior programming knowledge needed. Understanding these will also help you to understand how to better use any packages you are using like jsPsych and lab.js, as JavaScript can be used in conjunction with them. Throughout this document we'll create a simple reaction time experiment showing two different coloured boxes. You are encouraged to send me feedback about where you got stuck working through this document to m.lovell [at] sussex [dot] ac [dot] uk.
+This document goes through the basics of programming a psychology experiment with just JavaScript, HTML, and CSS. This document aims to be accessible to everyone - no prior programming knowledge needed, although is best used in conjunction with other beginner materials if that is the case. Understanding these languages will also help you to understand how to better use any packages you are using like jsPsych and lab.js, as JavaScript can be used in conjunction with them. In this tutorial we'll create a simple pseudo-experimental task which asks participants to choose which of two different boxes is green. The next tutorial will exend this example to create a real task with all the bells and whistles you'd expect. You are encouraged to send me feedback about where you got stuck working through this document to m.lovell [at] sussex [dot] ac [dot] uk.
 
 ### Why 3 Languages?
 
@@ -295,7 +295,7 @@ I'd like to take a second here to lay out what we'll need to make any experiment
 
 To accomplish the above we need the ability to show and hide different screens, and have delays between things. We'll handle creating most of the above in this lesson.
 
-As a first step, the current experiment will randomly make one stimulus green and the other red, and ask participants to choose the green one as quickly as possible. After this has been created, we'll handle drawing of more complicated stimuli on the canvas by filling our boxes with different amounts of dots and asking the user to select which box has more dots - an actual cognitive task.
+As a first step, the 'task' we will be creating will randomly make one stimulus green and the other red, and ask participants to choose the green one as quickly as possible.
 
 ### Counterbalancing trial order
 I think it's best practice to define our trials - the properties we want the stimulus to have - ahead of time. Here we want one stimuli to be green and the other red. We want an equal amount of these trials over the experiment, but to present a random one in each trial.
@@ -615,5 +615,4 @@ function endExperiment(){
 Check your OSF repository and you should see the data in there. If you want to read your data in R, try the jsonlite or rjson packages.
 
 ### END
-That's it for your first JavaScript experiment. Future tutorials will cover drawing to the canvas, starcasing, Qualtrics and Lab.js integration, surveys, and more. Check the files in this folder to see what the code should look like, if anything went wrong. As for launching the experiment, see our guide here:
-
+That's it for your first JavaScript experiment. Future tutorials will turn this into a real task, and cover creating your own stimuli, Qualtrics and Lab.js integration, surveys, and more. Check the files in this folder to see what the code should look like, if anything went wrong. As for launching the experiment, see our guide here: 

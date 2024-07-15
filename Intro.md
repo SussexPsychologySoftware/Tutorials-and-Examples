@@ -1,10 +1,10 @@
-This guide is intended to introduce researchers and students to all the avenues they might need for conducting online experiments, starting from scratch and assuming no prior knowledge. If need any help conducting your experiment, or come across any resources we might want to add to this page, don't hesitate to get in touch at m.lovell@sussex.ac.uk. Everything listed here is free to use unless otherwise stated. 
+This guide is intended to introduce researchers and students to all the avenues they might need for conducting online experiments, starting from scratch and assuming no prior knowledge. If need any help conducting your experiment, or come across any resources we might want to add to this page, don't hesitate to get in touch at m.lovell@sussex.ac.uk. Everything listed here is free to use unless otherwise stated.
 
 Surveys
 If your experiment does not contain an interactive task, you will likely be able to handle most of this through Qualtrics, which can handle assigning participants to conditions, follow-up surveys, email lists, and reminders too, amongst other things. The University of Sussex Psychology department has a subscription to this service. Online Surveys https://www.onlinesurveys.ac.uk/ is another option. If the basic functionality of Qualtrics is not enough, the rest of this guide lists resources to help you conduct your study online.
 
 Creating interactive cognitive tasks
-For our purposes, we can think of a web browser (e.g. Chrome, Safari, Edge) as a program that uses 3 interlinked programming languages (HTML, CSS, and JavaScript) to display websites. You do not have to learn any of these languages to conduct an online experiment thanks to several programs that allow you to make experiments visually with a graphical interface, which are then turned into code for you. However, you might find that you can't do exactly what you want in these graphical tools, and require more control over the experimental materials. In that case, you will need to start programming, but still there are lots of 'libraries' and 'frameworks' which provide lots of pre-written bits of code that are designed specifically for making psychology experiments easy to create. If you needed still more control over your materials, or just wanted to learn web development, you could then learn the actual programming languages. Here we will go through all the available options and point you to any learning resources.
+For our purposes, we can think of a web browser (e.g. Chrome, Safari, Edge) as a program that uses 3 interlinked programming languages (HTML, CSS, and JavaScript) to display websites. You do not have to learn any of these languages to conduct an online experiment thanks to several programs that allow you to make experiments visually with a graphical interface, which are then turned into code for you. However, you might find that you can't do exactly what you want in these graphical tools, and require more control over the experimental materials. In that case, you will need to start programming, but still there are lots of 'libraries' and 'frameworks' which provide lots of pre-written bits of code that are designed specifically for making psychology experiments easy to create. If you needed still more control over your materials, or just wanted to learn web development, you could then learn the actual programming languages. Here we will go through all the available options and point you to any learning resources. If you are not sure where to start, we recommend making your experiment in jsPsych, hosting on JATOS, and sending data to OSF using DataPipe.
 
 No-code GUIs
 The following websites and programs will allow you to build a psychology experiment with no code at all. Most of these programs will also allow you to use code as well to add extra functionality.
@@ -40,20 +40,20 @@ Once your experiment has been created, you need to put it online - to 'host' it 
 If you have written code, most of the no-code GUIs also serve as places where you can host your experiment as well, with a little extra work. Follow the links to see more in-depth guides on how to host your code on the platforms listed. Anywhere you can host JavaScript you can also use your jsPsych or PsychoJS code, as these are just addon packages downloaded by your browser. A good resource on this can be found here: https://kennysmithed.github.io/oels2022/oels_wk11.html
 
 Experiment Hosting Websites
+    - JATOS: https://www.jatos.org/Whats-JATOS.html 
+        ○ Free to use, and can manage participants too.
+    - Cognition.run: https://www.cognition.run/
+        ○ Free and easy to use - just create a new task and upload your JavaScript to the source code section. It doesn’t accept HTML, so your CSS will need to be in a separate file.
     - Qualtrics
         ○ Qualtrics is primarily made for building surveys but can host JavaScript/HTML/CSS inside of a Text/Graphic question. You can save your data here as well using JavaScript.
         ○ jsPsych integration: https://kywch.github.io/jsPsych-in-Qualtrics/
     - Lab.js
         ○ You can host your own JavaScript/JSPsych/PsychoJS code on lab.js as well, and save your data here too.
-    - JATOS: https://www.jatos.org/Whats-JATOS.html 
-        ○ Free to use, and can manage participants too.
-    - Cognition.run: https://www.cognition.run/
-        ○ Free and easy to use - just create a new task and upload your JavaScript to the source code section. It doesn’t accept HTML, so your CSS will need to be in a separate file.
     - Pavlovia
         ○ 20p per participant.
         ○ jsPsych integration: https://pavlovia.org/docs/experiments/create-jsPsych
     - Gorilla:
-        ○ 99p per participant
+        ○ 99p per participant.
         ○ jsPsych integration: https://app.gorilla.sc/support/articles/jspsych
     - Testable: https://www.testable.org/
     - Millisecond: https://www.millisecond.com/
@@ -92,5 +92,4 @@ You can recruit participants for your study at the following places:
 
 
 Other resources:
-    - https://gorilla.sc/a-comparison-of-tools-for-behavioural-research/
     - https://kennysmithed.github.io/oels2022/oels_wk11.html

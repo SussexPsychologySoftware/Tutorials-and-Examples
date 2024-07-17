@@ -1,0 +1,27 @@
+
+<div id="blankBackground"> <!-- Container displayed on top of normal qualtrics page -->
+    <!-- paste HTML from inside (not including) your body tags below here-->
+    
+    <!-- HTML END -->
+</div>
+
+<style> /* Can also paste what's in here in the 'Look and Feel' -> 'Custom CSS' section to control the whole survey */
+    /* Qualtrics-specific CSS Section */
+    #blankBackground {
+        position: absolute; /* Disregard position of other elements */
+        top: 0; /* Place top of element at the top of the screen */
+        left: 0; /* Place left side of element at the left of the screen */
+        height: 100%; /* Make height of element height of screen */
+        width: 100%; /* Make width of element width of screen */
+        margin: 0; /*  Remove border from element */
+        z-index: 999; /* Arbitrarily large number to display element on-top of other elements */
+    }
+
+    img {
+        max-width: none !important; /* This can be useful if you're having issues on mobile */
+    }
+
+    /* Paste your CSS (not including <html> and <body>) below  */
+
+    /* CSS END */
+</style>

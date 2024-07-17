@@ -1,4 +1,4 @@
-This guide is intended to introduce researchers and students to all the avenues they might need for conducting online experiments, starting from scratch and assuming no prior knowledge. If need any help conducting your experiment, or come across any resources we might want to add to this page, don't hesitate to get in touch at m.lovell@sussex.ac.uk. Everything listed here is free to use unless otherwise stated.
+This guide is intended to introduce researchers and students to all the avenues they might need for conducting online experiments, starting from scratch and assuming no prior knowledge. If need any help conducting your experiment, or come across any resources we might want to add to this page, don't hesitate to get in touch at m.lovell [at] sussex [dot] ac [dot] uk. Everything listed here is free to use unless otherwise stated.
 
 Surveys
 If your experiment does not contain an interactive task, you will likely be able to handle most of this through Qualtrics, which can handle assigning participants to conditions, follow-up surveys, email lists, and reminders too, amongst other things. The University of Sussex Psychology department has a subscription to this service. Online Surveys https://www.onlinesurveys.ac.uk/ is another option. If the basic functionality of Qualtrics is not enough, the rest of this guide lists resources to help you conduct your study online.
@@ -12,7 +12,8 @@ The following websites and programs will allow you to build a psychology experim
     - PsychoPy
         ○ PsychoPy is primarily for building offline experiments that run on your computer directly, by they do have limited functionality to automatically turn experiments built with their GUI into something that can be run online. This involves transpiling to their PsychoJS library, and so will create valid JavaScript code you can host in a variety of locations (see below). These experiments can be launched directly on their online experiment hosting platform Pavlovia.
     - Lab.js
-        ○ Lab.js is a fairly scrappy website that allows you to create some limited online experiments with little code, although you will often find you need to launch experiments
+        ○ Lab.js is a fairly scrappy website that allows you to create some limited online experiments with little code, although you will often find you need some code to launch experiments
+        ○ Launching Lab.js on other platforms: https://labjs.readthedocs.io/en/latest/learn/deploy/3-third-party.html#
     - SynToolKit - In-house software, contains some pre-built screening tools for Synaesthesia research
     - PsyToolKit: https://www.psytoolkit.org/
     - Testable: https://www.testable.org/
@@ -42,6 +43,7 @@ If you have written code, most of the no-code GUIs also serve as places where yo
 Experiment Hosting Websites
     - JATOS: https://www.jatos.org/Whats-JATOS.html 
         ○ Free to use, and can manage participants too.
+        ○ See: https://mindprobe.eu/
     - Cognition.run: https://www.cognition.run/
         ○ Free and easy to use - just create a new task and upload your JavaScript to the source code section. It doesn’t accept HTML, so your CSS will need to be in a separate file.
     - Qualtrics
@@ -49,6 +51,7 @@ Experiment Hosting Websites
         ○ jsPsych integration: https://kywch.github.io/jsPsych-in-Qualtrics/
     - Lab.js
         ○ You can host your own JavaScript/JSPsych/PsychoJS code on lab.js as well, and save your data here too.
+        ○ 
     - Pavlovia
         ○ 20p per participant.
         ○ jsPsych integration: https://pavlovia.org/docs/experiments/create-jsPsych

@@ -1,4 +1,4 @@
-# An Introdtuction to Running Online Psychology Experiments
+# An Introduction to Running Online Psychology Experiments
 This guide is intended to introduce researchers and students to all the avenues they might need for conducting online experiments, starting from scratch and assuming no prior knowledge. If need any help conducting your experiment, or come across any resources we might want to add to this page, don't hesitate to get in touch at m.lovell [at] sussex [dot] ac [dot] uk. Everything listed here is free to use unless otherwise stated.
 
 ## Surveys

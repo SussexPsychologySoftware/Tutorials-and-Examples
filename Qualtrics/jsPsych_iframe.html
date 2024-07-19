@@ -1,0 +1,38 @@
+<iframe id="iframe" src="https://users.sussex.ac.uk/mel29/experiments/jsPsych_example/jsPsych_example.html"></iframe>
+<style>
+    /* Class to render iframe in full page, to be added in JavaScript */
+    /* from: https://stackoverflow.com/questions/3982422/full-screen-iframe */
+    .fullpage {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        z-index: 999999;
+    }
+</style>
+<script>
+    // We only make the iframe fullpage when the page is loaded, otherwise it gets displayed inside the Qualtrics survey editor page too.
+    document.getElementById('iframe').classList.add("fullpage");
+    // Hide next button
+    const nextButton = document.getElementById('NextButton')
+    nextButton.hidden = true
+
+    // Save data and move to next screen
+    function handleMessage(e){
+        // console.log(e.origin) // uncomment this to check what the origin should be
+        if(e.origin === "https://users.sussex.ac.uk"){ // Check this is the message from jsPsych as Qualtrics generates lots of messages
+            Qualtrics.SurveyEngine.setEmbeddedData('task_data', e.data) // Need embedded variable called task_data in Qualtrics
+            nextButton.hidden = false // Show next button
+            nextButton.click() // Simulate next button click
+        }
+    }
+
+    window.onmessage = handleMessage
+</script>

@@ -2,7 +2,7 @@
 This guide is intended to introduce researchers and students to all the avenues they might need for conducting online experiments, starting from scratch and assuming no prior knowledge. If need any help conducting your experiment, or come across any resources we might want to add to this page, don't hesitate to get in touch at m.lovell [at] sussex [dot] ac [dot] uk. Everything listed here is free to use unless otherwise stated.
 
 ## Surveys
-All of the tools listed below can help you create surveys for your experiment too. However, if your experiment does not contain an interactive task, you will likely be able to handle most of your study through Qualtrics, which can handle assigning participants to conditions, follow-up surveys, email lists, and reminders too, amongst other things. The University of Sussex Psychology department has a subscription to this service. 
+All of the tools listed below can help you create surveys for your experiment too. However, if your experiment does not contain an interactive task, you will likely be able to handle most of your study through Qualtrics, which can handle assigning participants to conditions, follow-up surveys, email lists, and reminders too, amongst other things. The University of Sussex Psychology department has a subscription to this service. See our guide in the Qualtrics folder: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main/Qualtrics
 - Online Surveys https://www.onlinesurveys.ac.uk/ is another option. 
 - If you would like to program your surveys then you can use SurveyJS https://surveyjs.io/, which has been integrated into jsPsych recently as well.
 
@@ -40,7 +40,7 @@ If you need or would like more accuracy or flexibility than is offered by the GU
 - SoPHIE Labs: https://www.sophielabs.com/help/videotutorial/ similar to Lab.js, has some features to make coding easier
 
 ### JavaScript
-You might want/need to code your experiments directly in JavaScript, which is likely what most of the options above are actually using under the hood (maybe WASM/WebGPU as well). Whilst achievable, this can be tricky, but note that JSPsych or PsychoJS are more than powerful and flexible enough for most experiments. If you would like to learn JavaScript to make an online experiment, see our tutorial here: . For more general introductions consider https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps, or https://www.w3schools.com/js/default.asp.
+You might want/need to code your experiments directly in JavaScript, which is likely what most of the options above are actually using under the hood (maybe WASM/WebGPU as well). Whilst achievable, this can be tricky, but note that JSPsych or PsychoJS are more than powerful and flexible enough for most experiments. If you would like to learn JavaScript to make an online experiment, see our tutorial in the JavaScript folder of this repo: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main/JavaScript. For more general introductions consider https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps, or https://www.w3schools.com/js/default.asp.
 
 ## Hosting
 Once your experiment has been created, you need to put it online - to 'host' it on a server (i.e. a computer) somewhere so people can access it in their web browser. All of the GUIs listed above will handle this for you - although with PsychoPy you will need to go through their Pavlovia system, which is detailed below.
@@ -62,7 +62,8 @@ If you have written code, most of the no-code GUIs also serve as places where yo
     - 99p per participant.
     - jsPsych integration: https://app.gorilla.sc/support/articles/jspsych
 - Qualtrics
-    - Qualtrics can host JavaScript/HTML/CSS inside of a Text/Graphic question and save your data using JavaScript too. Current versions of jsPsych do not work in Qualtrics directly, but you can use 'redirects' or 'iFrames' to deal with this, see our tutorial here:
+    - Qualtrics can host JavaScript/HTML/CSS inside of a Text/Graphic question and save your data using JavaScript too. Current versions of jsPsych do not work in Qualtrics directly, but you can use 'redirects' or 'iFrames' to deal with this.
+    - See our guide to running experiments in the Qualtrics folder of this repo, or here: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main/Qualtrics
 - Testable: https://www.testable.org/
 - Millisecond: https://www.millisecond.com/
 - PsiTurk: https://psiturk.org/

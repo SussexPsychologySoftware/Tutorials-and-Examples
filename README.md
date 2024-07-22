@@ -11,7 +11,7 @@ Other options:
 ## Creating interactive cognitive tasks
 For our purposes, we can think of a web browser (e.g. Chrome, Safari, Edge) as a program that uses 3 interlinked programming languages (HTML, CSS, and JavaScript) to display websites. You do not have to learn any of these languages to conduct an online experiment thanks to several programs that allow you to make experiments visually with a graphical interface, which are then turned into code for you. However, you might find that you can't do exactly what you want in these graphical tools, and require more control over the experimental materials. In that case, you will need to start programming, but still there are lots of 'libraries' and 'frameworks' which provide lots of pre-written bits of code that are designed specifically for making psychology experiments easy to create. Here we will go through all the available options and point you to any learning resources.
 
-If you are not sure where to start, we recommend making your experiment in jsPsych, hosting on JATOS, and sending data to OSF using DataPipe.
+**If you are not sure where to start, we recommend making your experiment in jsPsych, hosting on JATOS, and sending data to OSF using DataPipe.** If you find this difficult, GitHub Pages might be an easier option to host the jsPsych code, which you can then display in you Qualtrics survey, where you can manage and store your data as well (see the Qualtrics guide in this repository).
 
 ### No-code GUIs
 The following websites and programs will allow you to build a psychology experiment with no code at all. Most of these programs will also allow you to use code as well to add extra functionality.

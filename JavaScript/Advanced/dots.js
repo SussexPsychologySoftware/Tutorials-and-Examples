@@ -1,3 +1,5 @@
+// Change the .js file in experiment.html to this one to run.
+
 // GLOBAL VARIABLES -----------------------------
 const instructions = document.getElementById('instructions')
 const stimuli = document.getElementById('stimuli')

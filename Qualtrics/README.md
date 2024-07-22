@@ -50,7 +50,7 @@ You can upload images, audio, and videos to Qualtrics by clicking on the 3 lines
 - Web Service: (for sending data to an external location) https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/advanced-elements/web-service/
 - Loop & Merge: (for looping through a block of questions using an array of values) https://www.qualtrics.com/support/survey-platform/survey-module/block-options/loop-and-merge/
 
-# HTML/CSS/JavaScript in Qualtrics (incl. jsPsych, lab.js)
+# HTML/CSS/JavaScript/jsPsych in Qualtrics
 Note the following sections will use HTML/CSS/JavaScript but will not explain how they work - to understand this section you will likely need to first run through the tutorial in the JavaScript section of this repository (if viewing on GitHub) or at: As usual, see the code files in this repository for comments on what each line does.
 
 Qualtrics can host any custom HTML/CSS/JavaScript inside a 'Text/Graphic' question. On Qualtrics click 'Add new Question' -> 'Text/Graphic'. Click on the 'Click to write the question text' section and on the right of this box you can see 'HTML View' - this is where you can place your HTML and CSS. It's actually recommended that you place anything you want to go in the `<head>` section of your HTML, and your CSS in the 'look and feel' section in the farmost left sidebar on Qualtrics. CSS can go in the 'Style' -> 'custom CSS' box, and the header can go in the 'General' -> 'Header' section. However, you won't need to put much in the header, and you can put your CSS between `<style>` tags in your HTML all the same, so how you organise that is up to you.
@@ -207,9 +207,9 @@ Note I would recommend sending your data over the web to somewhere else (e.g. us
 See the Lab.js tutorial here: https://labjs.readthedocs.io/en/latest/learn/deploy/3a-qualtrics.html#tutorial-deploy-third-party-qualtrics
 
 ## Integrating a JavaScript task into Qualtrics
-Note the following is not applicable to jsPsych code at present - it is for putting a 'vanilla' JavaScript task into Qualtrics.
+Note the following is not applicable to jsPsych code at present - it is for putting a 'vanilla' JavaScript task into Qualtrics. See other tutorials in this repository, and the files in this folder, for more of an explanation of this code.
 
-The default Qualtrics survey page has a lot of stuff on it - we might want a blank whole page to display our stimulus without any concerns as to what Qualtrics wants to display. To achieve this, we'll take all of your HTML from inside your `<body>` section and place it inside a `<div>` container instead. We'll then use CSS to display this in front of everything, taking up the entire page, and then we'll use JavaScript to place this as the first element in the `<body>`. Again, see our JavaScript tutorials for an explanation of how these languages work if you don't understand this code. I've left some comments, denoted by `<!--  -->` in HTML, `/*  */` in CSS, and `//` in JavaScript, to explain what is happening here - more comments can be found in the qualtrics.css files in thsi repo or at: 
+The default Qualtrics survey page has a lot of stuff on it - we might want a blank whole page to display our stimulus without any concerns as to what Qualtrics wants to display. To achieve this, we'll take all of your HTML from inside your `<body>` section and place it inside a `<div>` container instead. We'll then use CSS to display this in front of everything, taking up the entire page, and then we'll use JavaScript to place this as the first element in the `<body>`.
 
 It's often best if your HTML code is entirely inside in a container `<div></div>` section already, although is often not necessary.
 

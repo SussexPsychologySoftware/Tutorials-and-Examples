@@ -615,4 +615,4 @@ function endExperiment(){
 Check your OSF repository and you should see the data in there. If you want to read your data in R, try the jsonlite or rjson packages.
 
 ### END
-That's it for your first JavaScript experiment. Future tutorials will turn this into a real task, and cover creating your own stimuli, Qualtrics and Lab.js integration, surveys, and more. Check the files in this folder to see what the code should look like, if anything went wrong. As for launching the experiment, see our guide here: 
+That's it for your first JavaScript experiment. Future tutorials will turn this into a real task, and cover creating your own stimuli, Qualtrics and Lab.js integration, surveys, and more. For a preview, change the `.js` file referenced in the HTML to the dots.js file in this repository - perhaps see if you can understand the code yourself. Check the files in this folder to see what the code should look like, if anything went wrong. As for launching the experiment, see our guide here: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main

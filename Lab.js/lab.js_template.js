@@ -14,5 +14,3 @@ function resetLabJs(){
     document.getElementById('blankBackground').remove() //remove our main div
     return
 }
-
-document.getElementById('colourblindSelection').innerHTML = ds.data[ds.data.length-1].HTMLInputName; 

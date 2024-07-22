@@ -1,15 +1,13 @@
-# Running Lab.js experiments
-If you are looking to run Lab.js experiments online, they already have some useful guides here: https://labjs.readthedocs.io/en/latest/learn/deploy/index.html I'd recommend looking through. Below are some suggestions on extra things you can do with custom code in Lab.js if needed.
+# Custom JavaScript tips for Lab.js experiments
+If you are looking to run Lab.js experiments online, they already have some useful guides here: https://labjs.readthedocs.io/en/latest/learn/deploy/index.html I'd recommend looking through. Below are some suggestions on extra things you can do with custom code in Lab.js.
 
-
-### JavaScript
 Note: the following section assumes some knowledge of JavaScript. See our tutorial on JavaScript in this repository for more information.
 
 Lab.js can take custom HTML/CSS/JavaScript. Note that some HTML and CSS can be added in a separate section locatied by clicking on the three lines/sliders settings icons at the top left of the page. The 'HTML' tab has the best place to put any additions to your header, and your CSS can go in the 'CSS' tab. To add your HTML and JavaScript for a specific page, create a new study if needed and click the '+' on the left hand survey flow bar, and create a 'Page: HTML'. Delete the default content and add a new one with the '+' and select 'Raw HTML'. Your HTML then goes here in the 'Content' tab. Click on the 'Scripts' tab on the top left to input your JavaScript. The dropdown menu on the top right of your script has options to run the script at different times - generally the 'run' option should work for most cases.
 
 Take a look at the 'Example Experiment' folder for an example which takes the experiment made in our JavaScript tutorial and converts it to Lab.js ready code.
 
-### Making a fullpage blank background
+### Making a full-page blank background
 Lab.js has a lot of default styling you might not want. If not, you can wrap all your materials in the following HTML `<div>`
 
 ```
@@ -50,15 +48,7 @@ or you could show and hide it with JavaScript:
 ```
 document.querySelector('button[type="submit"][form="page-form"]').style.display = 'block';
 ```
-where `.style.display = 'block'` or `'none'` will show or hide the button, respectively.
-
-### Note on image/text distortions
-If your text and images are appearing distorted in Lab.js, consider adding the following CSS:
-```
-:root{
-    --line-height: 1 !important; 
-}
-```
+where `.style.display = 'block'` or `= 'none'` will show or hide the button, respectively.
 
 ### Saving data
 To save data from JavaScript to Lab.js, you first need to save a reference to the datastore in a global variable:
@@ -76,7 +66,7 @@ function saveData(){
 
 Where data is an array of JavaScript objects and `ds.commit(data[i])` uses lab.js' own `commit` function to save each field in data to a separate column in the lab.js data file.
 
-### Accessing form responses (and other previous data)
+### Retrieving data & Accessing form responses
 If you have set up a form response and wish to access it using JavaScript, there are several options to do so in Lab.js. For example, if we have the following form on one page:
 
 ```
@@ -100,3 +90,11 @@ ds.extract('colourblind','colourblindQuestionnaire')
 The last option also needs whatever you called the page with the form question on it in lab.js - by default this will be 'Form'.
 
 This technique is also useful for retrieving other data from previous questions and your own JavaScript code.
+
+### Note on image/text distortions
+If your text and images are appearing distorted in Lab.js, consider adding the following CSS:
+```
+:root{
+    --line-height: 1 !important; 
+}
+```

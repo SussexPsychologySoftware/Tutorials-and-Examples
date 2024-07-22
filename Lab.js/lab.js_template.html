@@ -1,0 +1,33 @@
+<style>
+    /* LAB.JS specific CSS */
+
+    /* This can help if text or images appear distorted */
+    :root{
+        --line-height: 1 !important; 
+    }
+    
+    /* Hide any submit button - optional if making page fullscreen anyway */
+    button[type="submit"][form="page-form"]{
+        display: none;
+    }
+
+    /* A blank page behind your task with no lab.js styling */
+    #blankBackground { /* Or could make this a class you add and remove... */
+        position: absolute;
+        background-color: white;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        z-index: 99999999;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    /* --------------- */
+</style>
+<main>
+    <div id="blankBackground">
+        <!-- Your HTML here -->
+    </div>
+</main>

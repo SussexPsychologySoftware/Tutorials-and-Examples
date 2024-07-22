@@ -11,8 +11,8 @@ Qualtrics.SurveyEngine.addOnload(function()
     
     // Function to end experiment
     function endExperiment(){ // Call this function when your experiment is over
-        // Save participant data: task_data must exist as embedded data, and participant_data must exist as a JS variable
-        Qualtrics.SurveyEngine.setEmbeddedData('task_data', participant_data)
+        // Save participant data: task_data must exist as embedded data, and participantData must exist as a JS variable
+        Qualtrics.SurveyEngine.setEmbeddedData('task_data', participantData)
         // Remove the task from the DOM
         blankBackground.remove()
         // Note: remove any added event listeners and intervals/timeouts too before moving forward

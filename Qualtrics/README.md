@@ -6,16 +6,16 @@ If looking to run your interactive tasks (e.g. jsPsych) in Qualtrics, the only m
 ### Assigning conditions
 We often want to assign conditions to participants, but we don't want to do this completely randomly for each participant, as we want to ensure even numbers of participants to end up in each group. Inside Qualtrics you can set variables to record and control things about your experiment. One way to use this is assigning participants to different experimental conditions in a random but balanced order. To do so we will need to go into our 'Survey Flow' and click 'add new element here'. This setup will assign partcipants to a random pre-sepcified group with equal numbers between participants:
 
-<img src="Survey Setup/set_conditions.png" width="700"/>
+<img src="Survey Flow Example Images/set_conditions.png" width="700"/>
 
 If you have two different condition variables in your experiment and want balance across them, you can add them in a row like this:
-<img src="Survey Setup/multiple_conditions.png" width="700"/>
+<img src="Survey Flow Example Images/multiple_conditions.png" width="700"/>
 
 You could then use a 'Branch' to show one group of participants certain stimuli, or use these variables later to present different materials to the participant depending on the value of their condition. 
 
 You can also just move these embedded data variables under a 'Group' inside the randomiser, along with any other materials you only want to show that specific group of participants:
 
-<img src="Survey Setup/groups.png" width="700"/>
+<img src="Survey Flow Example Images/groups.png" width="700"/>
 
 ### Longitudinal studies using workflows
 To run longitudinal studies in Qualtrics you will want to use a 'Workflow' which sends an email inviting participants stored in a 'Contact List' to your next survey. To set this up we need:
@@ -50,7 +50,7 @@ You can upload images, audio, and videos to Qualtrics by clicking on the 3 lines
 - Web Service: (for sending data to an external location) https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/advanced-elements/web-service/
 - Loop & Merge: (for looping through a block of questions using an array of values) https://www.qualtrics.com/support/survey-platform/survey-module/block-options/loop-and-merge/
 
-# HTML/CSS/JavaScript in Qualtrics
+# HTML/CSS/JavaScript in Qualtrics (incl. jsPsych, lab.js)
 Note the following sections will use HTML/CSS/JavaScript but will not explain how they work - to understand this section you will likely need to first run through the tutorial in the JavaScript section of this repository (if viewing on GitHub) or at: As usual, see the code files in this repository for comments on what each line does.
 
 Qualtrics can host any custom HTML/CSS/JavaScript inside a 'Text/Graphic' question. On Qualtrics click 'Add new Question' -> 'Text/Graphic'. Click on the 'Click to write the question text' section and on the right of this box you can see 'HTML View' - this is where you can place your HTML and CSS. It's actually recommended that you place anything you want to go in the `<head>` section of your HTML, and your CSS in the 'look and feel' section in the farmost left sidebar on Qualtrics. CSS can go in the 'Style' -> 'custom CSS' box, and the header can go in the 'General' -> 'Header' section. However, you won't need to put much in the header, and you can put your CSS between `<style>` tags in your HTML all the same, so how you organise that is up to you.
@@ -99,10 +99,10 @@ You can get the value of some embedded data using the syntax "${e://Field/VARIAB
 const condition = "${e://Field/condition}"
 ```
 
-You can save things from JavaScript to Qualtrics by setting embedded data with `Qualtrics.SurveyEngine.setEmbeddedData('embedded_data_var_name', your_js_variable)`. To do this you will need to have created an Embedded Data variable. To do this, go to the 'Survey Flow' section on the left hand side of your Qualtrics survey -> 'Add New Element Here' -> 'Embedded Data' -> 'Create New Field or Choose from the Drop-Down...' and enter the name you would like for your variable. Don't set this value now as we will be setting it in JavaScript. You will need to move the variable above the question holding your JavaScript so that it is created beforehand and accessible in your script. For example, if you have a variable holding your data in JavaScript called `participant_data`, and you want to save this to Qualtrics using an embedded data variable you have previously created called 'task_data', the following code will do this:
+You can save things from JavaScript to Qualtrics by setting embedded data with `Qualtrics.SurveyEngine.setEmbeddedData('embedded_data_var_name', your_js_variable)`. To do this you will need to have created an Embedded Data variable. To do this, go to the 'Survey Flow' section on the left hand side of your Qualtrics survey -> 'Add New Element Here' -> 'Embedded Data' -> 'Create New Field or Choose from the Drop-Down...' and enter the name you would like for your variable. Don't set this value now as we will be setting it in JavaScript. You will need to move the variable above the question holding your JavaScript so that it is created beforehand and accessible in your script. For example, if you have a variable holding your data in JavaScript called `participantData`, and you want to save this to Qualtrics using an embedded data variable you have previously created called 'task_data', the following code will do this:
 
 ```
-Qualtrics.SurveyEngine.setEmbeddedData('task_data', participant_data)
+Qualtrics.SurveyEngine.setEmbeddedData('task_data', participantData)
 ```
 
 ## Tutorial on running jsPsych in Qualtrics
@@ -176,8 +176,8 @@ When this experiment ends in jsPsych we need to send our data to the Qualtrics p
 ```
 var jsPsych = initJsPsych({
     on_finish: function() {
-        const participant_data = jsPsych.data.get().json()
-        window.top.postMessage(participant_data, '*')
+        const participantData = jsPsych.data.get().json()
+        window.top.postMessage(participantData, '*')
     }
 });
 ```
@@ -200,6 +200,11 @@ window.onmessage = handleMessage
 You'll need to replace `https://users.sussex.ac.uk` with the 'root domain' of your hosting website to get this to work. 
 
 This code is a little tricky to explain so you only need to read the following if wanting to understand more. `window.onmessage` is a function that runs when your browser recieves a message like we are trying to send it. We will assign it our own function to run, which I've called `handleMessage`, which will automatically get passed an event variable, which I have intercepted and called `e` so I can get information on what the event was that caused this function to run. As Qualtrics fires lots of these messages itself, we'll need to check we've intercepted the right one with `if(e.origin === "your exp url"){}` (use `console.log(e.origin)` to check incoming origins). If we have a message from the right place we then use a function from the Qualtrics API (see below) to set our pre-made embedded data with `Qualtrics.SurveyEngine.setEmbeddedData('embedded_data_name', js_var_name)`, passing it the `data` property from the event variable I called `e`, which is where whatever we sent using `postMessage` was automatically stored. As this also signals the end of the task, we show the Next button and also simulate a click on it to move to the next page.
+
+Note I would recommend sending your data over the web to somewhere else (e.g. using DataPipe) as well, just incase.
+
+## Lab.js in Qualtrics
+See the Lab.js tutorial here: https://labjs.readthedocs.io/en/latest/learn/deploy/3a-qualtrics.html#tutorial-deploy-third-party-qualtrics
 
 ## Integrating a JavaScript task into Qualtrics
 Note the following is not applicable to jsPsych code at present - it is for putting a 'vanilla' JavaScript task into Qualtrics.
@@ -261,11 +266,11 @@ Place this inside the `// Qualtrics-specific code-section -------------` in your
 This is a function you can call to end your task in Qualtrics and reset the page, undoing what we have done previously to set the task up:
 ```
 function endTask(){
-    Qualtrics.SurveyEngine.setEmbeddedData('task_data', participant_data)
+    Qualtrics.SurveyEngine.setEmbeddedData('task_data', participantData)
     blankBackground.remove()
     nextButton.hidden = false
     nextButton.click()
 }
 ```
 
-For this to run,  task_data must exist as an embedded data variable created before this task is run, and participant_data must exist as a JavaScript variable. `blankBackground.remove()` removes the task from the DOM (i.e. HTML) before moving forward, `nextButton.hidden = false` shows the Next button, and `nextButton.click()` clicks the next button, moving us to the next page. Note that you will also want to remove any added event listeners and intervals/timeouts too before moving forward
+For this to run,  task_data must exist as an embedded data variable created before this task is run, and participantData must exist as a JavaScript variable. `blankBackground.remove()` removes the task from the DOM (i.e. HTML) before moving forward, `nextButton.hidden = false` shows the Next button, and `nextButton.click()` clicks the next button, moving us to the next page. Note that you will also want to remove any added event listeners and intervals/timeouts too before moving forward

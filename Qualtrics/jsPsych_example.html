@@ -15,8 +15,8 @@
     /* initialize jsPsych */
     var jsPsych = initJsPsych({
       on_finish: function() {
-        const participant_data = jsPsych.data.get().json()
-        window.top.postMessage(participant_data, '*')
+        const participantData = jsPsych.data.get().json()
+        window.top.postMessage(participantData, '*')
       }
     });
 

@@ -3,7 +3,7 @@ Qualtrics is a surprisingly powerful platform for running studies online. Althou
 
 If looking to run your interactive tasks (e.g. jsPsych) in Qualtrics, the only major downside is that we have to create single variables we want to add to our dataset by hand one-at-a-time - this means the data from any tasks created in e.g. jsPsych will probably need to be stored in this single variable and then extracted at analysis (which is easily done), but of course can also be sent over the internet to any place you might like to store it at the same time. Note too that jsPsych must be hosted externally to Qualtrics, but can be seamlessly placed within your survey still with an HTML `iframe`.
 
-### Assigning conditions
+## Assigning conditions
 We often want to assign conditions to participants, but we don't want to do this completely randomly for each participant, as we want to ensure even numbers of participants to end up in each group. Inside Qualtrics you can set variables to record and control things about your experiment. One way to use this is assigning participants to different experimental conditions in a random but balanced order. To do so we will need to go into our 'Survey Flow' and click 'add new element here'. This setup will assign partcipants to a random pre-sepcified group with equal numbers between participants:
 
 <img src="Survey Flow Example Images/set_conditions.png" width="700"/>
@@ -17,13 +17,13 @@ You can also just move these embedded data variables under a 'Group' inside the 
 
 <img src="Survey Flow Example Images/groups.png" width="700"/>
 
-### Longitudinal studies using workflows
+## Longitudinal studies using workflows
 To run longitudinal studies in Qualtrics you will want to use a 'Workflow' which sends an email inviting participants stored in a 'Contact List' to your next survey. To set this up we need:
 1) Make sure you are collecting participant emails in your initial survey: https://www.qualtrics.com/support/survey-platform/survey-module/editing-questions/validation/#CustomValidationExample
 2) Another survey project to send to participants (e.g. day 2 of your intervention or a post-test survey)
 3) Create a contact list to save participant emails and send emails to them. We can do this in one contact list - although separate ones might be a better way to organise things for an actual study. Go to the 3 bar dropdown in the top left of Qualtrics -> Directories -> Create a List and give it a name.
 
-#### Setup Survey Distribution Workflow
+### Setup Survey Distribution Workflow
 In Qualtrics click on the 'Workflows' tab -> '+ Create a Workflow' -> 'Survey Response' -> 'Finish'. On this page you can add a condition, for example, sending a specific survey out to a specific group of participants based on their responses or embedded data.
 
 You might want to just send out an email, but we'll send out a link to another survey project we might've made in Qualtrics, perhaps the second day of an online intervention. Click '+' -> 'Add task' -> 'XM Directory' -> 'Distribute Survey'. In the Survey Distribution Task creation page (scroll down to see the rest of this page): 
@@ -35,7 +35,7 @@ You might want to just send out an email, but we'll send out a link to another s
 - Include a reminder: Note this from the time the survey was taken.
     - You can only send one reminder email (you could use a Webservice update and a python script to get around this if needed) 
 
-### Working with recruitment platforms
+## Working with recruitment platforms
 Many tools for online research have guides to help you integrate their plaforms with Qualtrics, e.g.:
 - Prolific: https://researcher-help.prolific.com/hc/en-gb/articles/360009224113-Qualtrics-integration-guide
 - Sona: https://www.sona-systems.com/help/qualtrics/
@@ -43,10 +43,10 @@ Many tools for online research have guides to help you integrate their plaforms 
 
 This largely involves redirecting to other webpages, and keeping data stored in URLs ('Query strings', e.g. url.com?var1=value1&var2=val2). If you would like/need to do this in JavaScript, see below on using JS in Qualtrics. The following code is useful for extracting Query variables: https://css-tricks.com/snippets/javascript/get-url-variables/, and you can add query variables by hand or with the `searchParams` property funtions. Then, you can redirect back to the recruitment platform with 'window.location.assign()'.
 
-### Hosting media & stimuli
+## Hosting media & stimuli
 You can upload images, audio, and videos to Qualtrics by clicking on the 3 lines at the top left of Qualtrics -> Library -> + Create New Folder (I've called mine 'example experiment') -> New Resource -> Graphic -> and drop the images into this folder. You can then insert graphics using the Rich Content editor. Or, inside the relevant folder in your Qualtrics Library, click on the three dots ... under 'Actions' next to each image and select 'View graphic' and click 'Copy link' to get a link to your image that can be used in another page, or in your jsPsych experiment.
 
-### Other features to be aware of in Qualtrics
+## Other features to be aware of in Qualtrics
 - Web Service: (for sending data to an external location) https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/advanced-elements/web-service/
 - Loop & Merge: (for looping through a block of questions using an array of values) https://www.qualtrics.com/support/survey-platform/survey-module/block-options/loop-and-merge/
 

@@ -30,17 +30,23 @@ The following websites and programs will allow you to build a psychology experim
 
 ### Coding Packages, Libraries, and Frameworks
 If you need or would like more accuracy or flexibility than is offered by the GUIs above, there are several packages that help in creating online experiments, and allow you to do so in a variety of languages you might be more familiar with:
-- JSPsych: https://www.jspsych.org/7.0/tutorials/hello-world/index.html
+
+JavaScript:
+- JSPsych: https://www.jspsych.org/v8/
     - This is perhaps the most popular option. Requires a fair bit of JavaScript, but is also a good intro to the language, with great tutorials and documentation.
     - Ask for help on the official GitHub forum: https://github.com/jspsych/jsPsych/discussions
-- PsychoJS: JavaScript counterpart to PsychoPy
+- Lab.js: Also has a library for coding experiments https://labjs.readthedocs.io/en/latest/learn/code/index.html
+- PsychoJS: JavaScript counterpart to PsychoPy https://github.com/psychopy/psychojs
+    - Some notes: https://mlln.cn/psychopy/online/psychojsCode.html
+- The Experiment Factory: https://www.expfactory.org/ contains pre-built experiments to get you started as well
+- SoPHIE Labs: https://www.sophielabs.com/help/videotutorial/ similar to Lab.js, has some features to make coding easier
+
+Other languages:
 - PsychTestR: Write experiments in R with R-Shiny https://pmcharrison.github.io/psychTestR/
 - MATLAB Web App Server: https://uk.mathworks.com/help/webappserver/
 - OsWeb for OpenSesame experiments: https://osdoc.cogsci.nl/3.3/manual/osweb/osweb/
 - PsyToolKit: https://www.psytoolkit.org/lessons/project.html#_step_4_code_the_experiment
 - Tatool Web: https://www.tatool-web.com/#!/
-- The Experiment Factory: https://www.expfactory.org/ contains pre-built experiments to get you started as well
-- SoPHIE Labs: https://www.sophielabs.com/help/videotutorial/ similar to Lab.js, has some features to make coding easier
 
 ### JavaScript
 You might want/need to code your experiments directly in JavaScript, which is likely what most of the options above are actually using under the hood (maybe WASM/WebGPU as well). Whilst achievable, this can be tricky, and note that jsPsych or PsychoJS are more than powerful and flexible enough for most experiments (although learning JS will help your skills with these libraries too). If you would like to learn JavaScript to make an online experiment, see our tutorial in the JavaScript folder of this repo: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main/JavaScript. For more general introductions consider https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps, or https://www.w3schools.com/js/default.asp.
@@ -56,14 +62,14 @@ If you have written code, most of the no-code GUIs also serve as places where yo
     - See: https://mindprobe.eu/
 - Cognition.run: https://www.cognition.run/
     - Free and easy to use - just create a new task and upload your JavaScript to the source code section. It doesn’t accept HTML, so your CSS will need to be in a separate file.
-- Lab.js
-    - You can host your own JavaScript/JSPsych/PsychoJS code on lab.js as well, and save your data here too.
 - Pavlovia
     - 20p per participant.
     - jsPsych integration: https://pavlovia.org/docs/experiments/create-jsPsych
 - Gorilla:
     - 99p per participant.
     - jsPsych integration: https://app.gorilla.sc/support/articles/jspsych
+- Lab.js OpenLab: https://open-lab.online/
+    - Lab.js has it's own hosting site: https://labjs.readthedocs.io/en/latest/learn/deploy/3d-openlab.html
 - Qualtrics
     - Qualtrics can host JavaScript/HTML/CSS inside of a Text/Graphic question and save your data using JavaScript too. Current versions of jsPsych do not work in Qualtrics directly, but you can use 'redirects' or 'iFrames' to deal with this.
     - See our guide to running experiments in the Qualtrics folder of this repo, or here: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main/Qualtrics
@@ -78,7 +84,6 @@ If you have written code, most of the no-code GUIs also serve as places where yo
 - Experimaker: https://experimaker.com/
 - ExpFactory: https://expfactory.github.io/
 - SoSci: https://www.soscisurvey.de/
-- OpenLab: https://open-lab.online/ for Lab.js specifically
 
 ### Free Server Spaces
 There are two main options that are server spaces you can use to deploy your studies as actual websites outside of an experiment hosting platform - although note you don't get the useful participant and data management features offered by experiment hosting websites. See section below.
@@ -90,7 +95,7 @@ There are two main options that are server spaces you can use to deploy your stu
     - Edinburgh: https://www.ed.ac.uk/information-services/computing/audio-visual-multi-media/web-hosting/hosting-service-options
 
 ### Note on the Front and Back End
-One thing to keep in mind about how all this works is the difference between something that happens on your participant's computer ('the front end') and things that you want to happen outside of this (on 'the back end'). If you want to counterbalance participants between conditions, keep track of responses over multiple days, send emails, or save participant data automatically, this all takes place outside of your experimental tasks and surveys. Most survey/experiment-specific hosting sites handle some of these issues, and Qualtrics is particularly good option, although again there are other options, including doing things by hand. If launching on GitHub pages or an actual Server Space, you may have to handle some of this yourself.
+One thing to keep in mind about how all this works is the difference between something that happens on your participant's computer ('the front end') and things that you want to happen outside of this (on 'the back end'). If you want to counterbalance participants between conditions, keep track of responses over multiple days, send emails, or save participant data automatically, this all takes place outside of your experimental tasks and surveys. Most survey/experiment-specific hosting sites handle some of these issues, although again there are other options, including doing things by hand. If launching on GitHub pages or an actual Server Space, you may have to handle some of this yourself. See our guide on how to use Qualtrics to manage data across participants: https://github.com/Sussex-Psychology-Software-Team/online-experiments/tree/main/Qualtrics
 
 ## Collecting data
 Before you start collecting data, you need to send it over the web to be stored somewhere. Experiment hosting websites will handle this for you, although saving data from your own code requires a little extra work to tell it what to save and when. Most places you can store things (Box, DropBox, OSF, etc.) have JavaScript APIs (i.e. code to interact with them and their servers) you can use to send data directly to them, although these are likely to be tricky to use. DataPipe is the easiest option here, and allows you to send data directly to OSF using a small bit of JavaScript https://pipe.jspsych.org/getting-started. If you have access to a university server space you could also do this by hand in PHP, and this jsPsych tutorial is a good intro on how to do so: https://www.jspsych.org/v7/overview/data/#storing-data-permanently-as-a-file (see also https://kywch.github.io/jsPsych-in-Qualtrics/save-php/).

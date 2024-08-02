@@ -1,0 +1,30 @@
+<head> <!-- Add in Look & Feel custom header -->
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+<script> // Add in text/graphic question JavaScript Qualtrics.SurveyEngine.addOnload(function(){})
+    // create jsPsych and attach to display stage
+    const jsPsych = initJsPsych({});
+
+    // create timeline
+    const timeline = [];
+
+    // define welcome message trial
+    const welcome = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "Welcome to the experiment. Press any key to begin."
+    };
+    timeline.push(welcome);
+
+    /* define instructions trial */
+    const instructions = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "Another page... Press any key to begin."
+    };
+    timeline.push(instructions);
+
+    // start the experiment
+    jsPsych.run(timeline);
+</script>

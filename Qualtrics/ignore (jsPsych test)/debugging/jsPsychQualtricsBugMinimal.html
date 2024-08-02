@@ -1,12 +1,12 @@
-<head>
+<head> <!-- Add in Look & Feel custom header -->
     <script src="https://unpkg.com/jspsych@7.3.4"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
     <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
+<!-- Add in text/graphic question HTML -->
 <div id="blankBackground"></div>
-<style>
+<style> /* Add in look and feel Style Custom CSS*/
     #blankBackground {
         position: absolute;
         top: 0;
@@ -17,7 +17,7 @@
         z-index: 999;
     }
 </style>
-<script>
+<script> // Add in text/graphic question JavaScript Qualtrics.SurveyEngine.addOnload(function(){})
     // Add blank background div under body to hide Qualtrics
     const blankBackground = document.getElementById("blankBackground") // Grab reference to our container div
     document.body.insertBefore(blankBackground, document.body.firstChild) // Insert it as the first element at the start of page's <body>
@@ -27,7 +27,7 @@
     nextButton.hidden = true // Set the HTML hidden attribute, to be removed at the end of the study.
 
     // create jsPsych and attach to display stage
-    var jsPsych = initJsPsych({
+    const jsPsych = initJsPsych({
         display_element: 'blankBackground',
         on_finish: function() {
             jsPsych.data.displayData();
@@ -35,17 +35,17 @@
     });
 
     // create timeline
-    var timeline = [];
+    const timeline = [];
 
     // define welcome message trial
-    var welcome = {
+    const welcome = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: "Welcome to the experiment. Press any key to begin."
     };
     timeline.push(welcome);
 
     /* define instructions trial */
-    var instructions = {
+    const instructions = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: "Another page... Press any key to begin."
     };

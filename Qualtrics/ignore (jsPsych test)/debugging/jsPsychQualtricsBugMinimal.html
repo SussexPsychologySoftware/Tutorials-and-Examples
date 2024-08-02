@@ -24,7 +24,7 @@
     
     // hide next button - remove these to run in browser -------
     const nextButton = document.getElementById('NextButton') // Qualtrics gives the next button element the id 'NextButton'
-    nextButton.hidden = true // Set the HTML hidden attribute, to be removed at the end of the study.
+    if(nextButton) nextButton.hidden = true// Set the HTML hidden attribute, to be removed at the end of the study.
 
     // create jsPsych and attach to display stage
     const jsPsych = initJsPsych({

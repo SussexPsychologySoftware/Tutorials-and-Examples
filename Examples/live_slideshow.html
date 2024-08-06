@@ -1,0 +1,53 @@
+<img id="image" height="640" width="640"></img>
+<script>
+    // Downloads series of images on the fly - if a good connection is ensured, this is nice and simple
+
+    // For more features like playing and pausing fullscreen, see RouteView Slideshow here: 
+    const image = document.getElementById('image')
+    const nTrials = 20
+    let imageNumber = 0
+    let intervalID
+
+    function runNextTrial(){
+        if(imageNumber===nTrials){
+            //end experiment here
+        } else {
+            console.log(imageNumber)
+            displayImage()
+            imageNumber++
+        }
+    }
+
+    // download image and display
+    function displayImage(){
+        const url = `https://picsum.photos/id/${imageNumber}/${image.width}/${image.height}` // create URL here, or grab from array
+        console.log(url)
+        image.src = url
+        image.onload = queueNextTrial // attach to onload event to ensure previous image was loaded
+        image.onerror = errorInterrupt
+    }
+
+    // Calls next image in 1 second
+    function queueNextTrial(){
+        intervalID = setTimeout(runNextTrial, 500)
+    }
+
+    // Handle errors by pausing and leaving fullscreen
+    function errorInterrupt(){
+        console.log('ERROR')
+        stop()
+    }
+
+    function stop(){
+        if(typeof intervalID !== "undefined" ){
+            //cancel interval
+            clearTimeout(intervalID)
+            image.onload = null
+            intervalID = undefined
+        }
+    }
+
+    //first image
+    runNextTrial()
+
+</script>

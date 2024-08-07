@@ -5,6 +5,9 @@
     
     <script src="https://max-lovell.github.io/jsPsych/packages/jspsych/dist/index.browser.js"></script>
     <script src="https://max-lovell.github.io/jsPsych/packages/plugin-html-keyboard-response/dist/index.browser.js"></script>
+    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-free-sort/dist/index.browser.js"></script>
+    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-maxdiff/dist/index.browser.js"></script>
+    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-sketchpad/dist/index.browser.js"></script>
     <link href="https://max-lovell.github.io/jsPsych/packages/jspsych/css/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 <!-- Add in text/graphic question HTML -->
@@ -53,6 +56,37 @@
         stimulus: "Another page... Press any key to begin."
     };
     timeline.push(instructions);
+
+    const freesort = {
+        type: jsPsychFreeSort,
+        stimuli: ['picsum.photos/200','picsum.photos/200','picsum.photos/200','picsum.photos/200'],
+        stim_height: 120,
+        stim_width: 160,
+        sort_area_height: 500,
+        sort_area_width: 500,
+        prompt: 'Please group similar expressions together. ',
+        column_spread_factor: .5
+    };
+    timeline.push(freesort);
+
+    const maxdiff_trial = {
+      type: jsPsychMaxdiff,
+      alternatives: ['apple', 'orange', 'pear', 'banana'],
+      labels: ['Most Preferred', 'Least Preferred'],
+      preamble: '<p> Please select your <b>most preferred</b> and <b>least preferred</b> fruits. </p>'
+    };
+    timeline.push(maxdiff_trial);
+
+    const sketchpad = {
+      type: jsPsychSketchpad,
+      prompt: '<p>Draw an apple!</p>',
+      prompt_location: 'abovecanvas',
+      canvas_width: 300,
+      canvas_height: 300,
+      canvas_border_width: 2,
+      show_redo_button: false,
+    };
+    timeline.push(sketchpad);
 
     // start the experiment
     jsPsych.run(timeline);

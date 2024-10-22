@@ -91,6 +91,7 @@ You must keep this code in the question - but we'll basically place everything i
 - In JavaScript, you can place variables inside strings using template literals. However, in Qualtrics, `${}` is reserved for their functions, like access embedded data above, so you must use normal concatenation, like doing `'abc ' + var1 + ' def'`.
 - jQuery is a library designed to make JavaScript easier to write. jQuery is available in Qualtrics, although isn't accessed by the `$` as usual (`${}` is reserved), but using `jQuery()` instead.
 - [A bug in Qualtrics has overridden the `Array.from()` function](https://community.qualtrics.com/custom-code-12/javascript-array-from-not-working-as-expected-20634), so this must be avoided. With a simple array you can use the spread syntax `[...myArray]` instead.
+- When testing your survey, Qualtrics stores survey responses in the participants cookies, which means these often must be cleared to get a new version of the survey you are testing - or just close + reopen incognito mode and load the page there.
 
 ### Getting and setting (embedded) data
 

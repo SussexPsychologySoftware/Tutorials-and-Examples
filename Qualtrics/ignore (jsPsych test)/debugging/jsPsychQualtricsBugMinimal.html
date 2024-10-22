@@ -1,14 +1,10 @@
 <head> <!-- Add in Look & Feel custom header -->
-    <!-- <script src="https://unpkg.com/jspsych@7.3.4"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
-    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" /> -->
-    
-    <script src="https://max-lovell.github.io/jsPsych/packages/jspsych/dist/index.browser.js"></script>
-    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-html-keyboard-response/dist/index.browser.js"></script>
-    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-free-sort/dist/index.browser.js"></script>
-    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-maxdiff/dist/index.browser.js"></script>
-    <script src="https://max-lovell.github.io/jsPsych/packages/plugin-sketchpad/dist/index.browser.js"></script>
-    <link href="https://max-lovell.github.io/jsPsych/packages/jspsych/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/jspsych@8.0.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-free-sort@2.0.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-maxdiff@2.0.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-sketchpad@2.0.1"></script>
+    <link href="https://unpkg.com/jspsych@8.0.2/css/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 <!-- Add in text/graphic question HTML -->
 <div id="blankBackground"></div>
@@ -59,7 +55,7 @@
 
     const freesort = {
         type: jsPsychFreeSort,
-        stimuli: ['picsum.photos/200','picsum.photos/200','picsum.photos/200','picsum.photos/200'],
+        stimuli: ['https://picsum.photos/200','https://picsum.photos/200','https://universityofsussex.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_Fc9eck43a4Z7tJb','https://universityofsussex.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_44Yck542aOrSSan'],
         stim_height: 120,
         stim_width: 160,
         sort_area_height: 500,

@@ -23,24 +23,19 @@
     var timeline = []
 
     var stimuli_all = ["ONE", "TWO", "THREE"]
+    var stimuli_new;
 
     var instructions = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: "BLABLA INSTRUCTIONS",
         // CREATE NEW STIMULUS LIST AFTER THIS STAGE
         on_finish: function () {
-            var stimuli_new = ["ONE", "TWO"]
-            jsPsych.data.addProperties({stimuli_new}) // add this to all trials (i.e. only this one at this point)
+            stimuli_new = ["ONE", "TWO"]
         }
     }
     timeline.push(instructions)
 
     // TRIALS
-    var trial = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: jsPsych.timelineVariable('stimulus'),
-    }
-
     for(let i=0; i<stimuli_all.length; i++){ // KEEP THIS AS LET AND NOT VAR
         var trial = {
             type: jsPsychHtmlKeyboardResponse,
@@ -50,10 +45,7 @@
         var newNode = {
             timeline: [trial],
             conditional_function: function(){ // Evaluated only at the start of trials
-                // stimuli_new is in every trial, just grab it from the first one here
-                var data = jsPsych.data.get().trials[0].stimuli_new;
-                console.log(data)
-                if(data.includes(stimuli_all[i])){ // check stimuli new includes the current stimulus
+                if(stimuli_new.includes(stimuli_all[i])){ // check stimuli new includes the current stimulus
                         return true; // continue
                     } else {
                         return false;

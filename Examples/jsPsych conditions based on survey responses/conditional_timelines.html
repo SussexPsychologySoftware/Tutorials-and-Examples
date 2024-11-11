@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Load JsPsych -->
+    <script src="https://unpkg.com/jspsych@7.3.1"></script>
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <!-- Load plugins -->
+    <script src="https://unpkg.com/@jspsych/plugin-survey@1.0.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@1.0.1/css/survey.css" />
+</head>
+
+<body></body>
+
+<script>
+    // https://github.com/RealityBending/FictionEro/tree/main/study2/experiment
+    // Initialize experiment =================================================
+    var stimuli_list =  [
+        {
+        "stimulus": "Opposite-sex_couple_001_v.jpg",
+        "Category": "Opposite-sex Couple",
+        "Orientation": "v"
+        },
+        {
+        "stimulus": "Opposite-sex_couple_002_h.jpg", 
+        "Category": "Opposite-sex Couple",
+        "Orientation": "h"
+        },
+        {
+        "stimulus": "Male_couple_002_h.jpg",
+        "Category": "Male Couple",
+        "Orientation": "h"
+        },
+        {
+        "stimulus": "Male_couple_003_v.jpg",
+        "Category": "Male Couple",
+        "Orientation": "v"
+        },
+        {
+        "stimulus": "Female_couple_002_v.jpg",
+        "Category": "Female Couple",
+        "Orientation": "v"
+        },
+        {
+        "stimulus": "Female_couple_003_h.jpg",
+        "Category": "Female Couple",
+        "Orientation": "h"
+        },
+        {
+        "stimulus": "Male_001_v.jpg",
+        "Category": "Male",
+        "Orientation": "v"
+        },
+        {
+        "stimulus": "Male_002_v.jpg",
+        "Category": "Male",
+        "Orientation": "v"
+        },
+        {
+        "stimulus": "Female_001_h.jpg",
+        "Category": "Female",
+        "Orientation": "h"
+        },
+        {
+        "stimulus": "Female_002_h.jpg",
+        "Category": "Female",
+        "Orientation": "h"
+        }
+    ]
+
+    const categorizedStimuli = stimuli_list.reduce((acc, item) => {
+        // If the category doesn't exist in our accumulator, create an array for it
+        if (!acc[item.Category]) {
+            acc[item.Category] = [];
+        }
+        // Push the current item to its category array
+        acc[item.Category].push(item);
+        return acc;
+    }, {});
+
+    var filtered_stim; // or just modify the original array to cut down on the global vars in this.
+    var participantCategory;
+    var categories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"];
+
+    var jsPsych = initJsPsych()
+
+    // m f o - he ho bi
+    var demographics_questions = {
+        type: jsPsychSurvey,
+        survey_json: {
+            pages: [
+                {
+                    elements: [
+                        {
+                            title: "What is your gender?",
+                            name: "Gender",
+                            type: "radiogroup",
+                            choices: ["Male", "Female", "Other"],
+                        },
+                    ],
+                },
+                {
+                    elements: [
+                        {
+                            title: "What sexual orientation do you identify with?",
+                            name: "SexualOrientation",
+                            type: "radiogroup",
+                            choices: ["Heterosexual", "Homosexual", "Bisexual"],
+                            showOtherItem: true,
+                            otherText: "Other",
+                            otherPlaceholder: "Please specify",
+                            isRequired: true,
+                        },
+                    ],
+                },
+            ],
+        },
+        data: {
+            screen: "demographic_questions",
+        },
+        on_finish: getRelevantPhotoCategory
+    }
+
+    function getRelevantPhotoCategory(data){
+        // Get the response data
+        const response = data.response;
+
+        // Extract gender and orientation
+        const gender = response.Gender;
+        const orientation = response.SexualOrientation;
+        
+        // Create combined string
+        if(orientation === 'Bisexual'){
+            data.relevantPhotoCategories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"]
+        } else if(orientation === "Homosexual") {
+            data.relevantPhotoCategories = [gender, gender + " Couple"]
+        } else {
+            const oppositeSex = gender === "Male" ? "Female" : "Male"
+            data.relevantPhotoCategories = ["Opposite-sex Couple", oppositeSex, oppositeSex + " Couple" ]
+        }
+        relevantPhotoCategories = data.relevantPhotoCategories
+        filtered_stim = stimuli_list.filter(item => data.relevantPhotoCategories.includes(item.Category));
+        console.log(data)
+    }
+
+    // init
+    var timeline = []
+    timeline.push(demographics_questions)
+    
+    var fiction_showimage1 = {
+            type: jsPsychImageKeyboardResponse,
+            stimulus: jsPsych.timelineVariable("stimulus"),
+            choices: ["s"],
+        }
+
+    for(let i=0; i<categories.length; i++){
+        var fiction_phase1a = {
+            timeline: fiction_showimage1,
+            timeline_variables: filtered_stim,
+            conditional_function: function(){ // Evaluated only at the start of trials   
+                if(relevantPhotoCategories.includes(categories[i])){ // check stimuli new includes the current stimulus
+                        return true; // continue
+                    } else {
+                        return false;
+                    }
+            }
+        }
+        timeline.push(fiction_phase1a)
+    }
+
+    jsPsych.run(timeline)
+</script>
+
+</html>

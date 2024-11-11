@@ -79,9 +79,6 @@
         return acc;
     }, {});
 
-    var filtered_stim; // or just modify the original array to cut down on the global vars in this.
-    var relevantPhotoCategories;
-    var categories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"];
 
     var jsPsych = initJsPsych({
         on_finish: function () {
@@ -89,7 +86,8 @@
         }
     })
 
-    // m f o - he ho bi
+    var relevantPhotoCategories; // store selection here to filter which timeline to show
+
     var demographics_questions = {
         type: jsPsychSurvey,
         survey_json: {
@@ -136,16 +134,15 @@
         
         // Create combined string
         if(orientation === 'Bisexual'){
-            data.relevantPhotoCategories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"]
+            relevantPhotoCategories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"]
         } else if(orientation === "Homosexual") {
-            data.relevantPhotoCategories = [gender, gender + " Couple"]
+            relevantPhotoCategories = [gender, gender + " Couple"]
         } else {
             const oppositeSex = gender === "Male" ? "Female" : "Male"
-            data.relevantPhotoCategories = ["Opposite-sex Couple", oppositeSex, oppositeSex + " Couple" ]
+            relevantPhotoCategories = ["Opposite-sex Couple", oppositeSex, oppositeSex + " Couple" ]
         }
-        relevantPhotoCategories = data.relevantPhotoCategories
-        filtered_stim = stimuli_list.filter(item => data.relevantPhotoCategories.includes(item.Category));
-        console.log(data)
+        data.relevantPhotoCategories = relevantPhotoCategories
+        // To filer stim: stimuli_list.filter(item => data.relevantPhotoCategories.includes(item.Category));
     }
 
     // init
@@ -161,7 +158,7 @@
         },
         choices: ["s"],
     }
-
+    var categories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"];
     // Loop through categories and create timeline segments
     for(let i=0; i < categories.length; i++) {
         let fiction_phase1a = {

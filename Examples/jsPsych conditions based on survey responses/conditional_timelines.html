@@ -7,7 +7,7 @@
     <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
     <!-- Load plugins -->
     <script src="https://unpkg.com/@jspsych/plugin-survey@1.0.1"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
     <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@1.0.1/css/survey.css" />
 </head>
 
@@ -80,10 +80,14 @@
     }, {});
 
     var filtered_stim; // or just modify the original array to cut down on the global vars in this.
-    var participantCategory;
+    var relevantPhotoCategories;
     var categories = ["Opposite-sex Couple", "Male Couple", "Female Couple", "Female", "Male"];
 
-    var jsPsych = initJsPsych()
+    var jsPsych = initJsPsych({
+        on_finish: function () {
+            jsPsych.data.displayData("json") // Display data in browser
+        }
+    })
 
     // m f o - he ho bi
     var demographics_questions = {
@@ -147,23 +151,30 @@
     // init
     var timeline = []
     timeline.push(demographics_questions)
-    
-    var fiction_showimage1 = {
-            type: jsPsychImageKeyboardResponse,
-            stimulus: jsPsych.timelineVariable("stimulus"),
-            choices: ["s"],
-        }
 
-    for(let i=0; i<categories.length; i++){
-        var fiction_phase1a = {
-            timeline: fiction_showimage1,
-            timeline_variables: filtered_stim,
-            conditional_function: function(){ // Evaluated only at the start of trials   
-                if(relevantPhotoCategories.includes(categories[i])){ // check stimuli new includes the current stimulus
-                        return true; // continue
-                    } else {
-                        return false;
-                    }
+    // First define the image trial
+    var fiction_showimage1 = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function() {
+            // Create an img element with the stimulus filename
+            return `<img src="https://raw.githubusercontent.com/RealityBending/FictionEro/main/study2/experiment/stimuli/${jsPsych.timelineVariable('stimulus')}" style="max-width: 100%;">`;
+        },
+        choices: ["s"],
+    }
+
+    // Loop through categories and create timeline segments
+    for(let i=0; i < categories.length; i++) {
+        let fiction_phase1a = {
+            timeline: [fiction_showimage1], // Put the trial object in an array
+            timeline_variables: categorizedStimuli[categories[i]],
+            conditional_function: function() {
+                if(relevantPhotoCategories.includes(categories[i])) {
+                    console.log("Showing category:", categories[i]);
+                    return true;
+                } else {
+                    console.log("Skipping category:", categories[i]);
+                    return false;
+                }
             }
         }
         timeline.push(fiction_phase1a)

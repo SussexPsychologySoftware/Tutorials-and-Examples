@@ -1,35 +1,149 @@
-# Digital Triggers
-Digital triggers are a recording of when something happened in your experiment - for example the exact moment a stimulus was shown on the screen. We can never know exactly when something happened for a variety of reasons - including the fact that your computer might just be busy doing something else the moment our stimulus was shown, which then leads the computer to record the stimulus being shown slightly later than it actually was. This can have knock on effects when it comes to data analysis, for example when we are trying to line up the changes in someone's EEG signals (which are measured several thousands of times a second) with the moment a new stimulus was shown. Therefore, we can use a few tricks to try to get our recording of stimulus onset to be as accurate as possible.
+# Digital Triggers for Psychological Experiments
 
-## Experimental Setup
-Typical setups where you will need Digital Triggers might have 1 or 2 computers, a recording device, and a few cables. The recording device might be an EEG cap/headset or skin-conductance or ECG electrodes (e.g. with a Biopac product). Researchers will often use two computers in the interest of freeing up each computer's resources to be as accurate as possible - one computer records the physiology data, whilst the other displays the stimulus and records participant interactions (e.g. keyboard presses and mouse clicks). For example, the first computer might be running AcqKnowledge Biopac recording software and the second computer might run Psychopy, Inquisit, or E-Prime, etc. In such a case, we need to get information on the status of the experiment (e.g., onset and offset time of the stimulus; beginning and end of block, trial, or experiment) to the computer making the physiology recordings. In order to line up the information on the status of the experiment and the physiology recordings as closely as possible, the information on the status of the experiment is usually passed through the physiology recording equipment hardware, so it can all be delivered to the computer recording the physiology data at the same time.
+This guide explains how digital triggers work in experimental psychology setups, particularly for synchronizing stimulus presentation with physiological data recording.
 
-## Serial/ Parallel Ports
-To send such information between computers, psychologists traditionally used the serial (https://en.wikipedia.org/wiki/Serial_port) or parallel ports (https://en.wikipedia.org/wiki/Parallel_port) that used to be found on the back of computers in order to connect them to printers (amongst other things). Even if your current setup is transferring the information from your computer over USB or wirelessly, it is probably mimicking these ports at the software level, and so understanding these ports provides a good example to understand why the software functions the way it does . Moreover the part of the cable that connects to the physiology equipment is often still a parallel port. Parallel Port cables look like this:
+## Table of Contents
+- [Introduction](#introduction)
+- [Hardware Setup](#hardware-setup)
+  - [Experimental Setup](#experimental-setup)
+  - [Parallel Ports](#parallel-ports)
+  - [Connecting Parallel Ports](#connecting-parallel-ports)
+  - [Pins & Bits](#pins--bits)
+  - [Mapping Lines to Experiment Status](#mapping-lines-to-experiment-status)
+  - [Overlapping Triggers vs 'Blips'](#overlapping-triggers-vs-blips)
+- [Encoding Triggers](#encoding-triggers)
+  - [Base-10](#base-10)
+  - [Binary](#binary)
+  - [Hex](#hex)
+  - [Bitmasking](#bitmasking)
+- [Programming](#programming)
+  - [PsychoPy](#psychopy)
+- [Further Reading](#further-reading)
+- [Research](#research)
 
-### Pins & bits
-Notice that there are several pins on the cable - these do different things, as you can see below, but what's relevant are the pins that say 'D0' to 'D7' on the illustration below:
+## Introduction
 
+Digital triggers are recordings of when events occur in your experiment - for example, the exact moment a stimulus appears on screen. Due to various factors (including computer processing load), the recorded time of stimulus presentation may differ slightly from when it actually appeared. This can affect data analysis, especially when aligning EEG signals (which are measured thousands of times per second) with stimulus presentation. This guide explains techniques to make trigger timing as accurate as possible.
 
-These are the channels we will send triggers through. These pins are the ends of separate wires running through the cable, and information is sent through them by turning them either on (i.e. so that they have electricity running through them) or off (no electricity is running through them). We will tell the computer to turn them on or off by sending them strings of 8 1s or 0s - i.e. to turn lines 1, 2, and 4 on we can send '11010000' down the wire, and the computer will handle the rest for us. We can then (often) send '10000000' to turn 2 and 4 off and keep 1 open (although not always in this order, which we deal with below). Notice, however, we will usually have to send the information for all pins simultaneously (note 'parallel' port).
+## Hardware Setup
 
-### Mapping lines to experiment status
-So, sending on or off (i.e., 1 or 0) across 8 (sometimes 16) different lines (or 'channels') is the medium we have to send information from our experimental setup. This might seem restrictive but is more than enough for most experimental purposes. A common setup might use line 1 to indicate the start and end of a block or trial, and to use line 2 for the start and end of the presentation of stimulus A, and line 3 for stimulus B, etc.
+### Experimental Setup
 
-The image below shows digital triggers being recorded on separate lines by Biopac's AcqKnowledge software (source: https://www.biopac.com/product/stimulation-response-analysis-software-module/):
+Typical setups requiring digital triggers may include:
+- 1-2 computers
+- A recording device (EEG cap/headset, skin-conductance or ECG electrodes)
+- Connecting cables
 
+Researchers often use two computers to maximize accuracy:
+- One computer records physiological data (e.g., EEG using AcqKnowledge or CGX Acquisition)
+- Another displays stimuli and records participant responses (using Psychopy, Inquisit, E-Prime, etc.)
 
-### Overlapping triggers vs 'Blips'
-We might choose to turn lines on at the start of an event and off at the end, and so may have the opening and closing of lines overlapping each-other (e.g. one will remain open whilst others turn on and off). Or, we can choose to turn a line on very briefly and then turn it off again, creating a spike in the recording on this line (referred to as a 'pulse', but I prefer calling it a 'blip') which we can extract at analysis to mark the event, ensuring that the lines turning on and off don't overlap one another. However, if pulsing the wire, there needs to be some small delay (typically 0.001 seconds) for the computer to reliably pick up this brief change, which is handled by pausing the execution of the entire program for that duration.
+In such setups, information about the experiment status (onset/offset of stimuli, beginning/end of blocks/trials) must be sent to the physiology recording computer. To align this information as precisely as possible, it's typically passed through the physiology recording hardware.
 
-## Encoding triggers
-Most software you use to send and receive these triggers won't ask for or send back a binary series of 8 1's or 0's but instead use numbers in one of several formats. For example, Cedrus' Pyxid package (https://github.com/cedrus-opensource/pyxid) does allows you to use the line numbers you wish to open or close, whilst the more common pySerial package (https://pyserial.readthedocs.io/en/latest/) used by PsychoPy (https://psychopy.org/hardware/serialPortInstr.html) is often controlled using 'Hex codes'. The data you receive will also either list the line numbers opened and closed, or an actual number which encodes them. To cover all bases (pun intended), the following section is a little involved (but hopefully interesting) and can be skipped by most readers.
+### Parallel Ports
+
+Traditionally, psychologists used parallel ports (found on the back of older computers) to send information between computers. Even if your current setup transfers information via USB or wirelessly, it likely mimics parallel ports at the software level. Understanding these ports helps explain why the software functions as it does. Additionally, the connection to the physiology equipment often still uses a parallel port.
+
+<img src="img/parallel_port_cables.png" alt="" width="300"/>
+
+### Connecting Parallel Ports
+
+**Note**: Not all parallel port cables are interchangeable. The cables used are technically DB-25 connectors. For example, Biopac uses a proprietary pin configuration - the required cable for MP35/MP36 (STP35A or B) can be found [here](https://www.biopac.com/product/usb-ttl/).
+
+If you need to connect a parallel port to a modern computer:
+- The USB TTL module from BBTK can act as a USB adapter: [BlackBoxToolkit USB TTL Module](https://www.blackboxtoolkit.com/usbttl.html) (gender changer sold separately)
+- Software available at: [BlackBoxToolkit Support](https://www.blackboxtoolkit.com/support_usb_ttl_module.html)
+- Biosemi also offers a USB to parallel port cable: [Biosemi USB Trigger Interface Cable](https://www.biosemi.com/faq/USB%20Trigger%20interface%20cable.htm)
+
+### Pins & Bits
+
+<img src="img/parallel_port_diagram.png" alt="" width="300"/>
+
+Parallel port cables have multiple pins serving different functions. The pins labeled 'D0' to 'D7' are the channels we use to send triggers. These pins are the endpoints of separate wires running through the cable. Information is sent by turning them either on (electricity running through) or off (no electricity).
+
+We instruct the computer to send electricity down these wires using strings of eight 1s or 0s, corresponding to which lines should be on or off. For example, to turn on lines 1, 2, and 4, we send '00001011'. We can later send '00000001' to turn lines 2 and 4 off while keeping line 1 open. Information for all pins must typically be sent simultaneously (hence "parallel" port).
+
+### Mapping Lines to Experiment Status
+
+<img src="img/AcqKnowledge_screenshot.png" alt="" width="300"/>
+
+Sending on/off signals (1 or 0) across 8 (sometimes 16) different lines or channels provides the medium for transmitting information from our experimental setup. While seemingly restrictive, this is sufficient for most experimental purposes. A common setup might use:
+- Line 1 to indicate start/end of a block or trial
+- Line 2 for start/end of stimulus A presentation
+- Line 3 for stimulus B, etc.
+
+### Overlapping Triggers vs 'Blips'
+
+There are two main approaches to using these lines:
+1. **Overlapping triggers**: Turn lines on at the start of an event and off at the end, which may result in overlapping signals (one line remains open while others turn on/off)
+2. **Blips** (or pulses): Turn a line on very briefly and then off again, creating a spike in the recording to mark the event
+
+When using the pulse/blip method, a small delay (typically 0.001 seconds) is needed for the computer to reliably detect this brief change. This is handled by pausing program execution for that duration.
+
+## Encoding Triggers
+
+Most software won't require you to directly input binary sequences of 1s and 0s. Instead, they use numbers in various formats:
+- Cedrus' Pyxid package allows you to specify line numbers to open/close
+- The pySerial package (used by PsychoPy) often uses Hex codes
+- Received data may list opened/closed line numbers or use an encoded number
 
 ### Base-10
-Starting at the beginning, we usually count in what's called 'base-10', which means we use numbers 0-9, and progressively store groups of 10 on the left hand digit (https://en.wikipedia.org/wiki/Decimal). For example, after 9 we go to 10, storing one lot of 10 in the '1', and starting the counting back at 0 on the right hand digit. To add 1 to 99, as both digits are already at the maximum value of 9, we flip them to 0 and add a 1 on the left to store the 10 lots of 10 we have. Interesting there isn't anything actually more natural about base-10 counting, and some cultures have used base-12 (i.e. they had 12 separate symbols for 0-11) or even base-60 counting, which is why clocks aren't 'metric' but in groups of 60 seconds and minutes, 12 hours, etc. 
+
+We typically count in base-10, using numbers 0-9 and progressively storing groups of 10 in the left digit. For example, after 9 comes 10, storing one group of 10 and starting back at 0 in the right digit. When adding 1 to 99, both digits reset to 0 and a 1 is added on the left to represent 10 groups of 10.
+
+There's nothing inherently natural about base-10; some cultures have used base-12 or even base-60 (which is why clocks use 60 seconds/minutes and 12 hours).
 
 ### Binary
-Computers also don't 'think' in 0-9, but in 1's and 0's - which we call 'binary', or 'base-2' counting. However, the counting proceeds the same, counting to the highest number available (just a 1 instead of a 9), storing that number on the left, and adding another digit to the right (see: https://www.mathsisfun.com/binary-number-system.html). So we proceed as follows: 0, 1, 10, 11, 100, 101, 110, 111. Note that what we've just done is counted from 0-7 in binary; in this system '101' doesn't mean 'one hundred and one', it stands for the number 5 (imagine we were using symbols other than 1 and 0 if that makes things easier). Note then that when we send '1000 0000' or '0100 0000' across our cable to activate lines 1 or 2 respectively, this can also be encoded as an actual number (128 or 64 in the previous examples when you remove the 0's on the left hand side). These are the sort of numbers you might find in your data after sending triggers across.
+
+Computers "think" in binary (base-2), using only 1s and 0s. Counting follows the same principle as base-10 but with only two digits: counting to the highest available digit (1), then storing that value on the left and adding another digit. To count from 0-7 in binary: 0, 1, 10, 11, 100, 101, 110, 111.
+
+These numbers are left-padded with 0s to create 8-digit sequences. For example, '01000000' or '10000000' activate lines 7 or 8 respectively, and can be encoded as decimal values (64 and 128).
 
 ### Hex
-So we can count up to 8 different digits (numbers 0-7) using 3 'bits' (spaces for 0s or 1s), and 16 numbers can be represented with 4 bits, then 32, 64, 128, etc - and you might have noticed these numbers come up quite frequently when dealing with computers. For this reason, computers use another number system to store numbers in a more compressed manner than binary - base-16, which is called 'Hexadecimal' or 'hex' (https://en.wikipedia.org/wiki/Hexadecimal). Hex counting uses the numbers 0-9 and then A-F for numbers 10-15. This can get confusing, e.g. if F=15 then 10=16, and FF=255 (play around with https://www.rapidtables.com/convert/number/hex-to-decimal.html?x=FF). However, this is a common format for sending triggers with PsychoPy using e.g. `port.write('F1'.encode())`.
+
+Binary can be cumbersome for humans to work with directly. Hexadecimal (base-16 or "hex") provides a more compressed format. Hex uses numbers 0-9 plus letters A-F (representing values 10-15). This can be confusing: F=15, 10=16, and FF=255. However, it's a common format for sending triggers with PsychoPy using commands like `port.write('F1'.encode())`.
+
+### Bitmasking
+
+The codes sent to acquisition software might be the opposite of what you'd expect. For example, with Pyxid and CGX Acquisition:
+- Activating line 1 shows as '1' ('00000001' in binary)
+- Closing that line sends 254 ('11111110')
+- Opening line 4 shows as '8' ('00001000')
+- Closing line 8 shows as 247 ('11110111')
+
+This process is called "bitmasking" - comparing one binary number with another to produce a final binary outcome. In these examples, a logical AND operation is performed on the input values.
+
+## Programming
+
+Regardless of your programming language or software, you'll need to specify which port your device is connected to. To find the correct COM port on Windows, open Device Manager and expand "Ports (COM & LPT)". If unsure which one is your device, unplug and reconnect it to identify the changing entry.
+
+### PsychoPy
+
+There are two main Python packages for sending triggers:
+- [PySerial](https://pyserial.readthedocs.io/en/latest/) (most common)
+- [PyXid2](https://github.com/cedrus-opensource/pyxid) (popular for certain proprietary products)
+
+For a tutorial on sending triggers in PsychoPy using PySerial, see: [PsychoPy Serial Port Instructions](https://psychopy.org/hardware/serialPortInstr.html)
+
+Additional notes:
+- The builder component may have issues; consider using a custom code block instead
+- To detect when components are displayed/hidden, check `name_of_component.status == STARTED`, `NOT_STARTED`, or `FINISHED`. Sound components also use `.isPlaying`
+- For delayed triggers, use `my_clock = core.Clock()` in 'begin routine', and check `my_clock >= 3.5` in 'each frame'
+- For triggers at block start/end, refer to `name_of_loop.thisTrialN` in 'Begin Routine' or `name_of_loop.nRemaining` in 'End Routine'
+- When using blips/pulses, use `core.wait(0.001)` to delay execution before turning the line off. Be cautious when closing one line and immediately opening another
+
+## Further Reading
+
+- [Brain Products Triggers Tutorial](https://pressrelease.brainproducts.com/trigger-beginners-guide/)
+- [Psychopy Pyxid2 & Biosemi USB adapter tutorial for EEG study](https://github.com/drmarcj/psychopy_biosemi_serial)
+
+## Research
+
+- [Frontiers in Neuroinformatics article](https://www.frontiersin.org/journals/neuroinformatics/articles/10.3389/fninf.2020.00002/full)
+- [BIOPAC Stimulation Response Analysis Software Module](https://www.biopac.com/product/stimulation-response-analysis-software-module/)
+- Lab Streaming Layer (LSL):
+  - [LSL Documentation](https://labstreaminglayer.readthedocs.io/info/intro.html)
+  - [BioRxiv Paper](https://www.biorxiv.org/content/10.1101/2024.02.13.580071v1)
+  - [Brain Products Tips and Tricks for LSL](https://www.brainproducts.com/support-resources/tips-and-tricks-for-lsl/)
+  - [YouTube Tutorial](https://www.youtube.com/watch?v=Y1at7yrcFW0)
+- [BBTK paper: Self-validating presentation and response timing in cognitive paradigms](https://www.researchgate.net/publication/8358738_Self-validating_presentation_and_response_timing_in_cognitive_paradigms_How_and_why)
